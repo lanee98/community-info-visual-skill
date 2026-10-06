@@ -1,0 +1,14 @@
+# 操作系统垃圾
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+*.swp
+
+# 生成产物（可重建，不进仓库）
+generated/
+output/
+*.tmp
