@@ -89,4 +89,4 @@ mv community-info-visual-skill ~/.workbuddy/skills/
 
 ## 许可
 
-课程作业产出，仅供学习交流。
+课程作业产出，仅供学习交流。1
