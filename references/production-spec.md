@@ -10,9 +10,9 @@
 
 ## 2. 导出链（HTML → PNG）
 
-1. **HTML 侧**：页面根元素固定 `width:1600px; height:2000px`；`@page { size: 1600px 2000px; margin: 0 }`；`-webkit-print-color-adjust: exact; print-color-adjust: exact`（否则背景色、插画底色会被打印引擎吃掉）。
+1. **HTML 侧**：页面根元素固定为**所选取向的基准尺寸**（竖版 `width:1600px; height:2000px` ／ 横版 `width:1920px; height:1080px`）；`@page { size: <宽>px <高>px; margin: 0 }` 与之同步；`-webkit-print-color-adjust: exact; print-color-adjust: exact`（否则背景色、插画底色会被打印引擎吃掉）。
 2. **HTML → PDF**：`<edge> --headless --print-to-pdf=<out.pdf> --no-pdf-header-footer <in.html>`。
-3. **PDF → PNG**：`pypdfium2`（pip 可装、无系统依赖），`scale = 96/72`，输出**精确 1600×2000**：
+3. **PDF → PNG**：`pypdfium2`（pip 可装、无系统依赖），`scale = 96/72`，输出**精确基准像素尺寸**（竖版 1600×2000 ／ 横版 1920×1080）：
 
    ```python
    import pypdfium2 as pdfium
@@ -36,8 +36,8 @@
 ## 5. 稳定性断言（定稿必跑）
 
 - **同一 PDF 两次独立渲染，像素 diff = 0**（逐像素比对即可）。实测值写入验收记录。
-- **布局自报**：页内脚本输出每个文字块的 `scrollHeight / clientHeight / lastBottom`，断言"无溢出、内容底边在 §4.2 预算内（1900–1980 @1600×2000）"。**换字体引起的行高 / 字宽漂移会在这里当场暴露**，而不是静默崩版。
-- **导出尺寸断言**：PNG 尺寸必须精确等于 1600×2000（4:5）。
+- **布局自报**：页内脚本输出每个文字块的 `scrollHeight / clientHeight / lastBottom`，断言"无溢出、内容外边界落在长边 95%–99% 的预算内"（竖版底边 1900–1980 @1600×2000 ／ 横版右边 1824–1900 @1920×1080）。**换字体引起的行高 / 字宽漂移会在这里当场暴露**，而不是静默崩版。
+- **导出尺寸断言**：PNG 尺寸必须精确等于所选取向的基准（竖版 1600×2000 = 4:5 ／ 横版 1920×1080 = 16:9）。
 
 ## 6. 适用范围
 
